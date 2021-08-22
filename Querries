@@ -1,0 +1,64 @@
+insert into usercredentials (username, password) VALUES ("mtercero@opentext.com", "Dont4GET"), ("jessie2@opentext.com", "Dont4GET");
+
+
+insert into course (CourseID,
+  CourseName,
+  CourseUnit,
+  CourseDescription,
+  CourseURL)
+  VALUES 
+  ("C-10001", "Java Programming 101", 3, "Learning Basic Java Program", "https://www.youtube.com/watch?v=eIrMbAQSU34"),
+  ("C-10002", "Database 101", 3, "Learning basic Database SQL", "https://www.youtube.com/watch?v=wR0jg0eQsZA"),
+  ("C-10003", "HTML and CSS", 3, "Learning Basics of HTML and CSS", "https://www.youtube.com/watch?v=y3UH2gAhwPI");
+  
+insert into enrolledcourse (ECourseID, EmpID, CourseID)
+VALUES ()
+
+
+insert into team (TeamID, DeptID, TeamName, TeamCostCenter)
+VALUES ('T-10001', 'D-10001', "Portfolio", "PH"), ('T-10002', 'D-10001', "SAAS", "PH");
+
+insert into department (DeptID, DeptName)
+VALUES ("D-10001", "Customer Support");
+
+
+insert into employee (EmpID, TeamID, EmpUsername, EmpLastName, EmpFirstName, EmpStatus, EmpEmail)
+VALUES ("0000078948", "T-10002", "mtercero", "Tercero", "Marlon", "Single", "mtercero@opentext.com") , 
+("0000078949", "T-10001", "jessiea", "Agravante", "Jessie", "Married", "jessiea@opentext.com");
+
+insert into quiz (QuizID, CourseID, QuizURL, QuizDescription) VALUES ("Q-10001","C-10001","https://forms.office.com/Pages/ResponsePage.aspx?id=d4ShEDPVzU6njZFtvYSdfEbFyIE_OupOnYt_tMx5NhxUQjRVR0JWTk5BRUdOTVU3V1lQT1VXNkpQOC4u", "Java Quiz"  ), ("Q-10002","C-10002","https://forms.office.com/Pages/ResponsePage.aspx?id=d4ShEDPVzU6njZFtvYSdfK5jo4fvaxVCrGXBoVV1J19UMDJQTlo3WjMxVVVCMlZPVVJORkdKVlNKVi4u", "HTML and CSS Quiz")
+
+insert into trainer (TrainerID, EmpID)
+VALUES ("T-10001", "0000078948");
+
+insert into enrolledcourse (CourseID, EmpID, TrainerID)
+VALUES ("C-10001", "0000078949", "T-10001", "Q-10001"), ("C-10003", "0000078949", "T-10001", "Q-10002");
+
+
+=================================
+
+COURSE NAME, Trainer Name, Course Link, Quiz Link
+
+SELECT course.courseName, course.courseURL, employee.EmpLastName, employee.EmpFirstName, SUBQUERY.FirstName, SUBQUERY.LastName, quiz.quizURL
+FROM enrolledcourse
+INNER JOIN course
+ON enrolledcourse.courseID = course.courseID
+INNER JOIN employee
+ON enrolledcourse.EmpID = employee.EmpID
+INNER JOIN (SELECT employee.EmpFirstName as FirstName, employee.empLastName as LastName, trainer.TrainerID as Trainer
+				FROM trainer
+					INNER JOIN employee
+					ON trainer.EmpID = employee.EmpID)
+					AS SUBQUERY
+ON enrolledcourse.TrainerID = SUBQUERY.Trainer
+INNER JOIN quiz
+ON enrolledcourse.quizID = quiz.QuizID
+WHERE enrolledcourse.EmpID = '0000078949';
+
+
+==========================================================================================
+INSERT INTO employee (password) VALUES ("Dont4GET") WHERE EmpID = "0000078948";
+
+
+
+
